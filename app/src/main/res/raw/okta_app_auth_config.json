@@ -1,0 +1,12 @@
+{
+  "client_id": "{0oae0n64c6dFdhsEI0h7}",
+  "redirect_uri": "{com.oktapreview.dev-698513:/callback}",
+  "scopes": [
+    "openid",
+    "profile",
+    "offline_access"
+  ],
+  "issuer_uri": "{https://dev-698513.oktapreview.com/oauth2/default}"
+ // "issuer_uri": "{https://dev-698513.oktapreview.com}"
+  //"issuer_uri": "{https://dev-698513-admin.oktapreview.com/oauth2/default}"
+}
