@@ -12,6 +12,14 @@
         android:elevation="4dp"
         tools:ignore="UnusedAttribute" />
 
+    <ToggleButton
+        android:id="@+id/play_pause"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@drawable/ic_launcher_background"
+        android:textOff=""
+        android:textOn="" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
