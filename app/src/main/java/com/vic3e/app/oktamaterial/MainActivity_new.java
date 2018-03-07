@@ -17,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.balysv.materialmenu.MaterialMenuDrawable;
 import com.mikepenz.crossfader.Crossfader;
 import com.mikepenz.fontawesome_typeface_library.FontAwesome;
 import com.mikepenz.google_material_typeface_library.GoogleMaterial;
@@ -58,13 +59,13 @@ public class MainActivity_new extends AppCompatActivity {
     private MiniDrawer miniResult = null;
   //  private CrossfadeDrawerLayout crossFader;
     private Crossfader crossFader;
-
+    private MaterialMenuDrawable materialMenu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ToggleButton toggleBtn = (ToggleButton) findViewById(R.id.play_pause);
+     //   ToggleButton toggleBtn = (ToggleButton) findViewById(R.id.play_pause);
       //  StateListDrawable stateListDrawable = (StateListDrawable) toggleBtn.getBackground();
     //    AnimationDrawable animationDrawable = (AnimationDrawable) stateListDrawable.getCurrent();
   //      animationDrawable.selectDrawable(animationDrawable.getNumberOfFrames() - 1);
@@ -73,9 +74,25 @@ public class MainActivity_new extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                // Handle your drawable state here
+         //       materialMenu.animateState(newState);
+                if (crossFader != null && crossFader.isCrossFaded()) {
+                    materialMenu.animateIconState(MaterialMenuDrawable.IconState.BURGER);
+                    crossFader.crossFade();
+                } else {
+                    materialMenu.animateIconState(MaterialMenuDrawable.IconState.BURGER);
+                    crossFader.crossFade();
+                }
+            }
+        });
+        materialMenu = new MaterialMenuDrawable(this, Color.WHITE, MaterialMenuDrawable.Stroke.THIN);
+        toolbar.setNavigationIcon(materialMenu);
+
 
         //set the back arrow in the toolbar
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setTitle(R.string.drawer_item_mini_drawer);
 
         // Create a few sample profile
@@ -154,7 +171,7 @@ public class MainActivity_new extends AppCompatActivity {
                     }
                 })
                 .withGenerateMiniDrawer(true)
-                .withActionBarDrawerToggle(true)
+         //       .withToolbar(toolbar)
                 .withSavedInstance(savedInstanceState)
                 // build only the view of the Drawer (don't inflate it automatically in our layout which is done with .build())
                 .buildView();
@@ -176,10 +193,10 @@ public class MainActivity_new extends AppCompatActivity {
                 .withContent(findViewById(R.id.crossfade_content))
                 .withFirst(result.getSlider(), firstWidth)
                 .withSecond(miniResult.build(this), secondWidth)
+                .withGmailStyleSwiping()
                 .withSavedInstance(savedInstanceState)
                 .build();
-
-
+       // materialMenu.setTransformationOffset(MaterialMenuDrawable.AnimationState, 0 value);
         //define the crossfader to be used with the miniDrawer. This is required to be able to automatically toggle open / close
         miniResult.withCrossFader(new CrossfadeWrapper(crossFader));
 
@@ -188,6 +205,7 @@ public class MainActivity_new extends AppCompatActivity {
     //    crossFader.getCrossFadeSlidingPaneLayout().setShadowResourceLeft(R.drawable.material_drawer_shadow_left);
         crossFader.getFirst().setBackgroundColor(Color.WHITE);
         crossFader.getSecond().setBackgroundColor(Color.WHITE);
+
     }
 
     private OnCheckedChangeListener onCheckedChangeListener = new OnCheckedChangeListener() {

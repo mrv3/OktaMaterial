@@ -67,6 +67,8 @@ dependencies {
     implementation 'com.mikepenz:ionicons-typeface:2.0.1.4@aar'
     implementation 'com.mikepenz:pixeden-7-stroke-typeface:1.2.0.2@aar'
 
+    compile 'com.balysv.materialmenu:material-menu:2.0.0'
+
     implementation 'com.okta.android:appauth-android:0.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
