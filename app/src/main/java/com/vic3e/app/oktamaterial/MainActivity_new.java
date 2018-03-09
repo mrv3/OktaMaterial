@@ -6,6 +6,8 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -69,6 +71,7 @@ public class MainActivity_new extends AppCompatActivity {
       //  StateListDrawable stateListDrawable = (StateListDrawable) toggleBtn.getBackground();
     //    AnimationDrawable animationDrawable = (AnimationDrawable) stateListDrawable.getCurrent();
   //      animationDrawable.selectDrawable(animationDrawable.getNumberOfFrames() - 1);
+
 //
         // Handle Toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -95,6 +98,24 @@ public class MainActivity_new extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setTitle(R.string.drawer_item_mini_drawer);
 
+
+        if(savedInstanceState == null) {
+            android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            transaction.replace(R.id.content_frame, new RandomFragment()).addToBackStack(null);
+            //   getSupportActionBar().getTitle();
+            //  FragmentTransaction fragment = transaction.replace(R.id.content_frame,FirstFragment);
+            // .addToBackStack( "tag" );
+            //transaction.commit();
+            //   android.app.FragmentManager fragmentManager = getFragmentManager();
+            //       android.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
+            //    transaction.replace(R.id.content_frame, new FirstFragment());
+            //    transaction.replace(R.id.content_frame, new ThirdFragment3());
+            transaction.commit();
+            //    ConnectionBuddy.getInstance().getConfiguration().getNetworkEventsCache().clearLastNetworkState(this);
+        }
+
+
         // Create a few sample profile
         // NOTE you have to define the loader logic too. See the CustomApplication for more details
         final IProfile profile = new ProfileDrawerItem().withName("Mike Penz").withEmail("mikepenz@gmail.com").withIcon("https://avatars3.githubusercontent.com/u/1476232?v=3&s=460");
@@ -111,15 +132,15 @@ public class MainActivity_new extends AppCompatActivity {
                 .withHeaderBackground(R.drawable.blue_back_two)
                 .withTranslucentStatusBar(false)
                 .addProfiles(
-                        profile,
-                        profile2,
-                        profile3,
-                        profile4,
-                        profile5,
-                        profile6,
+                        profile
+                 //       profile2,
+                 //       profile3,
+                //        profile4,
+               //         profile5,
+               //         profile6,
                         //don't ask but google uses 14dp for the add account icon in gmail but 20dp for the normal icons (like manage account)
-                        new ProfileSettingDrawerItem().withName("Add Account").withDescription("Add new GitHub Account").withIcon(GoogleMaterial.Icon.gmd_add).withIdentifier(PROFILE_SETTING),
-                        new ProfileSettingDrawerItem().withName("Manage Account").withIcon(GoogleMaterial.Icon.gmd_settings)
+                 //       new ProfileSettingDrawerItem().withName("Add Account").withDescription("Add new GitHub Account").withIcon(GoogleMaterial.Icon.gmd_add).withIdentifier(PROFILE_SETTING),
+              //          new ProfileSettingDrawerItem().withName("Manage Account").withIcon(GoogleMaterial.Icon.gmd_settings)
                 )
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override
@@ -140,6 +161,7 @@ public class MainActivity_new extends AppCompatActivity {
                         return false;
                     }
                 })
+               .withSelectionListEnabledForSingleProfile(false)
                 .withSavedInstance(savedInstanceState)
                 .build();
 
@@ -164,8 +186,20 @@ public class MainActivity_new extends AppCompatActivity {
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if (drawerItem instanceof Nameable) {
-                            Toast.makeText(MainActivity_new.this, ((Nameable) drawerItem).getName().getText(MainActivity_new.this), Toast.LENGTH_SHORT).show();
+                    //    if (drawerItem instanceof Nameable) {
+                      //      Toast.makeText(MainActivity_new.this, ((Nameable) drawerItem).getName().getText(MainActivity_new.this), Toast.LENGTH_SHORT).show();
+                   ///     }
+                        if (drawerItem != null) {
+
+                            if (drawerItem.getIdentifier() == 1) {
+                                Fragment f = RandomFragment.newInstance("Demo");
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, f).addToBackStack(null).commit();
+
+                            } else if (drawerItem.getIdentifier() == 3) {
+                                Fragment f2 = RandomFragment2.newInstance("Demo2");
+                                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, f2).addToBackStack(null).commit();
+
+                            }
                         }
                         return false;
                     }
@@ -190,7 +224,8 @@ public class MainActivity_new extends AppCompatActivity {
         //create and build our crossfader (see the MiniDrawer is also builded in here, as the build method returns the view to be used in the crossfader)
         //the crossfader library can be found here: https://github.com/mikepenz/Crossfader
         crossFader = new Crossfader()
-                .withContent(findViewById(R.id.crossfade_content))
+            //    .withContent(findViewById(R.id.crossfade_content))
+                .withContent(findViewById(R.id.content_frame))
                 .withFirst(result.getSlider(), firstWidth)
                 .withSecond(miniResult.build(this), secondWidth)
                 .withGmailStyleSwiping()
@@ -256,6 +291,8 @@ public class MainActivity_new extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_1:
                 crossFader.crossFade();
+               // Fragment f = RandomFragment.newInstance("Demo");
+           //     getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, f).commit();
                 return true;
             case android.R.id.home:
                 onBackPressed();
